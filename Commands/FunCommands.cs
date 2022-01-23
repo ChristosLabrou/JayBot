@@ -1,32 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using DSharpPlus;
+using System;
 using System.IO;
-using System.Text.Json;
-using JayBot;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace JayBot.Commands
 {
 	public class FunCommands : BaseCommandModule
 	{
-		[Command("ping")]
-		[Description("Replies with \"pong\"")]
-		public async Task Ping(CommandContext ctx)
-		{
-			await ctx.Channel.SendMessageAsync("Pong").ConfigureAwait(false);
-		}
-
 		[Command("say")]
 		[Description("Posts input (without the bot command)")]
 		public async Task Say(CommandContext ctx, string text)
 		{
 			string message = ctx.Message.Content;
-			await ctx.Channel.SendMessageAsync(message.Remove(0,5)).ConfigureAwait(false);
+			await ctx.Channel.SendMessageAsync(message.Remove(0, 5)).ConfigureAwait(false);
 			await ctx.Message.DeleteAsync();
 		}
 
@@ -36,8 +25,8 @@ namespace JayBot.Commands
 		{
 			var jedi = ctx.Member.Guild.GetRole(777326202309836800);
 
-			if (ctx.Member.Roles.Contains(jedi)) 
-			{ 
+			if (ctx.Member.Roles.Contains(jedi))
+			{
 				Bot.questions.Add(new Question(text));
 				string output = Newtonsoft.Json.JsonConvert.SerializeObject(Bot.questions);
 				File.WriteAllText(Bot.dataJsonPath, output);
@@ -52,10 +41,22 @@ namespace JayBot.Commands
 			var jedi = ctx.Member.Guild.GetRole(777326202309836800);
 
 			if (ctx.Member.Roles.Contains(jedi))
-				for (var i =0; i < Bot.questions.Count; i++)
-			{
-				await ctx.Channel.SendMessageAsync($"{i+1}) "+Bot.questions[i].text).ConfigureAwait(false);
-			}
+				for (var i = 0; i < Bot.questions.Count; i++)
+				{
+					await ctx.Channel.SendMessageAsync($"{i + 1}) " + Bot.questions[i].text).ConfigureAwait(false);
+				}
+		}
+
+		[Command("size")]
+		[Description("Prints the list length.")]
+		public async Task Size(CommandContext ctx)
+		{
+			//var jedi = ctx.Member.Guild.GetRole(777326202309836800);
+
+			//if (ctx.Member.Roles.Contains(jedi))
+
+			await ctx.Channel.SendMessageAsync($"{Bot.questions.Count}").ConfigureAwait(false);
+
 		}
 
 		[Command("question")]
@@ -64,12 +65,12 @@ namespace JayBot.Commands
 		{
 			var jedi = ctx.Member.Guild.GetRole(777326202309836800);
 
-			if (ctx.Member.Roles.Contains(jedi)) 
-			{ 
+			if (ctx.Member.Roles.Contains(jedi))
+			{
 				var rng = new Random();
 				for (var i = 0; i < number; i++)
 				{
-					int index = rng.Next(0, Bot.questions.Count - 1);
+					int index = rng.Next(0, Bot.questions.Count);
 					await ctx.Channel.SendMessageAsync(Bot.questions[index].text).ConfigureAwait(false);
 				}
 			}

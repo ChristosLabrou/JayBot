@@ -1,12 +1,12 @@
 ﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
+using JayBot.Commands;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using JayBot.Commands;
-using System.Collections.Generic;
 
 namespace JayBot
 {
@@ -16,10 +16,10 @@ namespace JayBot
 		public CommandsNextExtension Commands { get; private set; }
 
 		static public List<Question> questions = new List<Question>();
-		static public readonly string dataJsonPath = @"C:\Users\Chris\source\repos\DiscordBotSolution\DiscordBotProject\bin\data.json";
-		//static public DSharpPlus.Entities.DiscordRole JediRole;
+		static public readonly string dataJsonPath = "data.json";//@"C:\Users\Chris\source\repos\DiscordBotSolution\DiscordBotProject\bin\data.json";
+																 //static public DSharpPlus.Entities.DiscordRole JediRole;
 
-		public void LoadJson() 
+		public void LoadJson()
 		{
 			using (StreamReader reader = new StreamReader(dataJsonPath))
 			{
@@ -31,7 +31,7 @@ namespace JayBot
 
 		public async Task RunAsync()
 		{
-			
+
 			var json = string.Empty;
 
 			using (var fs = File.OpenRead("config.json"))
