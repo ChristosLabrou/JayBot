@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace JayBot.Commands
 {
@@ -21,16 +22,29 @@ namespace JayBot.Commands
 
 		[Command("submit")]
 		[Description("Submits question to the list")]
-		public async Task Submit(CommandContext ctx, string text)
+		public async Task Submit(CommandContext ctx, string type, string text)
 		{
 			var jedi = ctx.Member.Guild.GetRole(777326202309836800);
 
 			if (ctx.Member.Roles.Contains(jedi))
 			{
-				Bot.questions.Add(new Question(text));
-				string output = Newtonsoft.Json.JsonConvert.SerializeObject(Bot.questions);
-				File.WriteAllText(Bot.dataJsonPath, output);
-				await ctx.Channel.SendMessageAsync("Done").ConfigureAwait(false);
+				//Bot.questions.Add(new Question(text));
+				if (type.ToLower() == "game"){
+					Bot.questions.Add(new Question(text, QuestionTypeEnum.Game));
+					string output = Newtonsoft.Json.JsonConvert.SerializeObject(Bot.questions);
+					File.WriteAllText(Bot.dataJsonPath, output);
+					await ctx.Channel.SendMessageAsync("Done").ConfigureAwait(false);
+				}
+				else if (type.ToLower() == "server"){
+					Bot.questions.Add(new Question(text, QuestionTypeEnum.Server));
+					string output = Newtonsoft.Json.JsonConvert.SerializeObject(Bot.questions);
+					File.WriteAllText(Bot.dataJsonPath, output);
+					await ctx.Channel.SendMessageAsync("Done").ConfigureAwait(false);
+				}
+				else{
+					await ctx.Channel.SendMessageAsync("Invalid question type. Valid types are: game, server").ConfigureAwait(false);
+				}
+				
 			}
 		}
 
@@ -74,6 +88,16 @@ namespace JayBot.Commands
 					await ctx.Channel.SendMessageAsync(Bot.questions[index].text).ConfigureAwait(false);
 				}
 			}
+		}
+
+		[Command("patch")]
+		public async Task Patch(CommandContext ctx){
+			for (int i =0; i<Bot.questions.Count;i++){
+				Bot.questions[i].type = QuestionTypeEnum.Game;
+			}
+			string output = Newtonsoft.Json.JsonConvert.SerializeObject(Bot.questions);
+			File.WriteAllText(Bot.dataJsonPath, output);
+			await ctx.Channel.SendMessageAsync("Question enumerators patched").ConfigureAwait(false);
 		}
 	}
 }

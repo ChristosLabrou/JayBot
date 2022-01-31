@@ -1,4 +1,6 @@
-﻿namespace JayBot
+﻿using System;
+
+namespace JayBot
 {
 	class Program
 	{
