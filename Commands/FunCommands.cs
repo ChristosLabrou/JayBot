@@ -90,14 +90,6 @@ namespace JayBot.Commands
 			}
 		}
 
-		[Command("patch")]
-		public async Task Patch(CommandContext ctx){
-			for (int i =0; i<Bot.questions.Count;i++){
-				Bot.questions[i].type = QuestionTypeEnum.Game;
-			}
-			string output = Newtonsoft.Json.JsonConvert.SerializeObject(Bot.questions);
-			File.WriteAllText(Bot.dataJsonPath, output);
-			await ctx.Channel.SendMessageAsync("Question enumerators patched").ConfigureAwait(false);
-		}
+		
 	}
 }
