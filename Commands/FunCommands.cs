@@ -12,7 +12,7 @@ namespace JayBot.Commands
 	{
 		[Command("say")]
 		[Description("Posts input (without the bot command)")]
-		public async Task Say(CommandContext ctx, string text)
+		public async Task Say(CommandContext ctx, params string[] text)
 		{
 			string message = ctx.Message.Content;
 			await ctx.Channel.SendMessageAsync(message.Remove(0, 5)).ConfigureAwait(false);
