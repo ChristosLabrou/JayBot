@@ -364,3 +364,7 @@ FodyWeavers.xsd
 
 # config file - contains API token
 config.json
+
+# vscode files - I may want to remove them from gitignore in the future
+.vscode/
+.vscode/*
