@@ -36,9 +36,9 @@ namespace JayBot.Commands
 					await ctx.Channel.SendMessageAsync("Done").ConfigureAwait(false);
 				}
 				else if (type.ToLower() == "server"){
-					Bot.questions.Add(new Question(text, QuestionTypeEnum.Server));
-					string output = Newtonsoft.Json.JsonConvert.SerializeObject(Bot.questions);
-					File.WriteAllText(Bot.dataJsonPath, output);
+					Bot.serverQuestions.Add(new Question(text, QuestionTypeEnum.Server));
+					string output = Newtonsoft.Json.JsonConvert.SerializeObject(Bot.serverQuestions);
+					File.WriteAllText(Bot.serverQuestionJsonPath, output);
 					await ctx.Channel.SendMessageAsync("Done").ConfigureAwait(false);
 				}
 				else{
@@ -49,12 +49,12 @@ namespace JayBot.Commands
 		}
 
 		[Command("read")]
-		[Description("Prints the entire list.\nFOR DEBUG PURPOSES")]
+		[Description("Prints the entire list.\nFor debug purposes, only Chris can use it")]
 		public async Task Read(CommandContext ctx)
 		{
 			var jedi = ctx.Member.Guild.GetRole(777326202309836800);
-
-			if (ctx.Member.Roles.Contains(jedi))
+			if(ctx.Member.Id == 259995873923039233)
+			//if (ctx.Member.Roles.Contains(jedi))
 				for (var i = 0; i < Bot.questions.Count; i++)
 				{
 					await ctx.Channel.SendMessageAsync($"{i + 1}) " + Bot.questions[i].text).ConfigureAwait(false);
@@ -78,6 +78,8 @@ namespace JayBot.Commands
 		public async Task Question(CommandContext ctx, int number)
 		{
 			var jedi = ctx.Member.Guild.GetRole(777326202309836800);
+			string gameplay = "__Gameplay questions__\n";
+			string server = "__Server questions__\n";
 
 			if (ctx.Member.Roles.Contains(jedi))
 			{
@@ -85,8 +87,13 @@ namespace JayBot.Commands
 				for (var i = 0; i < number; i++)
 				{
 					int index = rng.Next(0, Bot.questions.Count);
-					await ctx.Channel.SendMessageAsync(Bot.questions[index].text).ConfigureAwait(false);
+					gameplay += $"{i+1}) " + Bot.questions[index].text + "\n";
+					index = rng.Next(0, Bot.serverQuestions.Count);
+					server += $"{i+1}) " + Bot.serverQuestions[index].text + "\n";
+					
 				}
+				await ctx.Channel.SendMessageAsync(gameplay).ConfigureAwait(false);
+				await ctx.Channel.SendMessageAsync(server).ConfigureAwait(false);
 			}
 		}
 

@@ -15,10 +15,12 @@ namespace JayBot
 		public DiscordClient Client { get; private set; }
 		public CommandsNextExtension Commands { get; private set; }
 
-		static public List<Question> questions = new List<Question>();
-		static public readonly string dataJsonPath = "data.json";//@"C:\Users\Chris\source\repos\DiscordBotSolution\DiscordBotProject\bin\data.json";
-																 //static public DSharpPlus.Entities.DiscordRole JediRole;
+		static public List<Question> questions = new List<Question>();	
+		static public List<Question> serverQuestions = new List<Question>();
 
+		static public readonly string dataJsonPath = "game.json";//@"C:\Users\Chris\source\repos\DiscordBotSolution\DiscordBotProject\bin\data.json";
+																 //static public DSharpPlus.Entities.DiscordRole JediRole;
+		static public readonly string serverQuestionJsonPath = "server.json";
 		public void LoadJson()
 		{
 			using (StreamReader reader = new StreamReader(dataJsonPath))
@@ -26,7 +28,10 @@ namespace JayBot
 				string json = reader.ReadToEnd();
 				questions = JsonConvert.DeserializeObject<List<Question>>(json);
 			}
-
+			using (StreamReader reader = new StreamReader(serverQuestionJsonPath)){
+				string json = reader.ReadToEnd();
+				serverQuestions = JsonConvert.DeserializeObject<List<Question>>(json);
+			}
 		}
 
 		public async Task RunAsync()
