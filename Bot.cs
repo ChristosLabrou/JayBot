@@ -17,10 +17,12 @@ namespace JayBot
 
 		static public List<Question> questions = new List<Question>();	
 		static public List<Question> serverQuestions = new List<Question>();
+		static public List<Squad> squads = new List<Squad>();
 
-		static public readonly string dataJsonPath = "game.json";//@"C:\Users\Chris\source\repos\DiscordBotSolution\DiscordBotProject\bin\data.json";
-																 //static public DSharpPlus.Entities.DiscordRole JediRole;
-		static public readonly string serverQuestionJsonPath = "server.json";
+		static private readonly string folderName = "/home/chris/repos/JayBot/DataFiles/";
+		static public readonly string dataJsonPath = folderName + "game.json";
+		static public readonly string serverQuestionJsonPath = folderName+"server.json";
+		static public readonly string squadJsonPath = folderName+"squads.json";
 		public void LoadJson()
 		{
 			using (StreamReader reader = new StreamReader(dataJsonPath))
@@ -31,6 +33,10 @@ namespace JayBot
 			using (StreamReader reader = new StreamReader(serverQuestionJsonPath)){
 				string json = reader.ReadToEnd();
 				serverQuestions = JsonConvert.DeserializeObject<List<Question>>(json);
+			}
+			using (StreamReader reader = new StreamReader(squadJsonPath)){
+				string json = reader.ReadToEnd();
+				squads = JsonConvert.DeserializeObject<List<Squad>>(json);
 			}
 		}
 
@@ -64,7 +70,10 @@ namespace JayBot
 			};
 
 			Commands = Client.UseCommandsNext(commandsConfig);
+			//Commands.RegisterCommands<FunCommands>();
 			Commands.RegisterCommands<FunCommands>();
+			Commands.RegisterCommands<QuestionCommands>();
+			Commands.RegisterCommands<SquadCommands>();
 
 			await Client.ConnectAsync();
 			await Task.Delay(-1);
