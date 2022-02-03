@@ -9,7 +9,8 @@ namespace JayBot
 
 		//This attribute is required by Newtonsoft deserialization
 		[JsonConstructor]
-		public Question(string text, QuestionTypeEnum type){
+		public Question(string text, QuestionTypeEnum type)
+		{
 			this.text = text;
 			this.type = type;
 		}

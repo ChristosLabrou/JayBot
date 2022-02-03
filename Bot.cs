@@ -15,15 +15,15 @@ namespace JayBot
 		public DiscordClient Client { get; private set; }
 		public CommandsNextExtension Commands { get; private set; }
 
-		static public List<Question> questions = new List<Question>();	
+		static public List<Question> questions = new List<Question>();
 		static public List<Question> serverQuestions = new List<Question>();
 		static public List<Squad> squads = new List<Squad>();
 
 		static private readonly string folderName = "DataFiles/";
-													//Linux full path "/home/chris/repos/JayBot/DataFiles/";
+		//Linux full path "/home/chris/repos/JayBot/DataFiles/";
 		static public readonly string dataJsonPath = folderName + "game.json";
-		static public readonly string serverQuestionJsonPath = folderName+"server.json";
-		static public readonly string squadJsonPath = folderName+"squads.json";
+		static public readonly string serverQuestionJsonPath = folderName + "server.json";
+		static public readonly string squadJsonPath = folderName + "squads.json";
 		public void LoadJson()
 		{
 			using (StreamReader reader = new StreamReader(dataJsonPath))
@@ -31,11 +31,13 @@ namespace JayBot
 				string json = reader.ReadToEnd();
 				questions = JsonConvert.DeserializeObject<List<Question>>(json);
 			}
-			using (StreamReader reader = new StreamReader(serverQuestionJsonPath)){
+			using (StreamReader reader = new StreamReader(serverQuestionJsonPath))
+			{
 				string json = reader.ReadToEnd();
 				serverQuestions = JsonConvert.DeserializeObject<List<Question>>(json);
 			}
-			using (StreamReader reader = new StreamReader(squadJsonPath)){
+			using (StreamReader reader = new StreamReader(squadJsonPath))
+			{
 				string json = reader.ReadToEnd();
 				squads = JsonConvert.DeserializeObject<List<Squad>>(json);
 			}

@@ -1,6 +1,8 @@
-namespace JayBot{
+namespace JayBot
+{
 
-	public enum QuestionTypeEnum{
+	public enum QuestionTypeEnum
+	{
 		Game,
 		Server
 	}

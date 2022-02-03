@@ -1,9 +1,5 @@
-﻿using DSharpPlus;
-using DSharpPlus.CommandsNext;
+﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using System;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace JayBot.Commands
@@ -19,14 +15,14 @@ namespace JayBot.Commands
 			await ctx.Message.DeleteAsync();
 		}
 
-	/*
-		[Command("squad")]
-		[Description("WIP")]
-		public async Task Squad(CommandContext ctx, params uint[] IDs){
-			await ctx.Channel.SendMessageAsync("Work in Progress. Begone thot!").ConfigureAwait(false);
-			
+		/*
+			[Command("squad")]
+			[Description("WIP")]
+			public async Task Squad(CommandContext ctx, params uint[] IDs){
+				await ctx.Channel.SendMessageAsync("Work in Progress. Begone thot!").ConfigureAwait(false);
 
-		}
-	*/
+
+			}
+		*/
 	}
 }
