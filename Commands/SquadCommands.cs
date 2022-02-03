@@ -8,17 +8,16 @@ namespace JayBot.Commands
 {
 	public class SquadCommands : BaseCommandModule
 	{
-		[Command("guild")]
-		[Description("wip")]
-		public async Task SquadSubmit(CommandContext ctx, string mode, params string[] parameters)
+		[Command("squad")]
+		[Description("WIP documentation. Ask Chris in the meantime")]
+		public async Task Squad(CommandContext ctx, string mode, params string[] parameters)
 		{
-			bool found = false;
+			bool isMember;
 			string replyText = "";
 			if (mode.ToLower() == "submit" || mode.ToLower() == "create")
 			{
 				//We assume that guild name is parameters[0]
 				List<string> tempList = new List<string>();
-				//replyText += $"Squad {parameters[0]} added with members:\n";
 				for (int i = 1; i < parameters.Length; i++)
 				{
 					tempList.Add(parameters[i]);
@@ -35,8 +34,8 @@ namespace JayBot.Commands
 				var guildIndex = Helpers.GuildIndex(parameters[0]);
 				if (guildIndex != -1)
 				{
-					found = Helpers.IsGuildMember(guildIndex, ctx.Member.Id.ToString());
-					if (found)
+					isMember = Helpers.IsGuildMember(guildIndex, ctx.Member.Id.ToString());
+					if (isMember)
 					{
 						replyText = $"Guild {Bot.squads[guildIndex].name} you're summoned!\n" + Bot.squads[guildIndex].massPing;
 
@@ -64,7 +63,7 @@ namespace JayBot.Commands
 			else if (mode.ToLower() == "delete")
 			{
 				int guildIndex = Helpers.GuildIndex(parameters[0]);
-				bool isMember = Helpers.IsGuildMember(guildIndex, ctx.Member.Id.ToString());
+				isMember = Helpers.IsGuildMember(guildIndex, ctx.Member.Id.ToString());
 
 				if (guildIndex != -1)
 				{
@@ -86,9 +85,64 @@ namespace JayBot.Commands
 				File.WriteAllText(Bot.squadJsonPath, output);
 				await ctx.Channel.SendMessageAsync(replyText).ConfigureAwait(false);
 			}
-			else if (mode.ToLower() == "edit")
+			else if (mode.ToLower() == "addmember")
 			{
+				var guidIndex = Helpers.GuildIndex(parameters[0]);
+				isMember = Helpers.IsGuildMember(guidIndex, ctx.Member.Id.ToString());
+				if (guidIndex != -1)
+				{
+					if (isMember)
+					{
+						replyText = $"Members added to {Bot.squads[guidIndex].name} guild:\n";
+						for (int i = 1; i < parameters.Length; i++)
+						{
+							Bot.squads[guidIndex].memberIDs.Add(parameters[i]);
+							Bot.squads[guidIndex].massPing += parameters[i] + "\n";
+							replyText += "<@"+parameters[i] + ">\n";
+						}
+					}
+					else
+					{
+						replyText = "Access denied. Only guild members are allowed to add/remove members";
+					}
+					
+				}
+				else
+				{
+					replyText = "Guild not found";
+				}
+				string output = Newtonsoft.Json.JsonConvert.SerializeObject(Bot.squads);
+				File.WriteAllText(Bot.squadJsonPath, output);
+				await ctx.Channel.SendMessageAsync(replyText).ConfigureAwait(false);
+			}
+			else if (mode.ToLower() == "removemember")
+			{
+				var guidIndex = Helpers.GuildIndex(parameters[0]);
+				isMember = Helpers.IsGuildMember(guidIndex, ctx.Member.Id.ToString());
 
+				if (guidIndex != -1)
+				{
+					if (isMember)
+					{
+						replyText = $"Members removed from {Bot.squads[guidIndex].name} guild:\n";
+						for (int i = 1; i < parameters.Length; i++)
+						{
+							Bot.squads[guidIndex].memberIDs.Remove(parameters[i]);
+							replyText += "<@" + parameters[i] + ">\n";
+						}
+					}
+					else
+					{
+						replyText = "Access denied. Only guild members are allowed to add/remove members";
+					}
+				}
+				else
+				{
+					replyText = "Guild not found";
+				}
+				string output = Newtonsoft.Json.JsonConvert.SerializeObject(Bot.squads);
+				File.WriteAllText(Bot.squadJsonPath, output);
+				await ctx.Channel.SendMessageAsync(replyText).ConfigureAwait(false);
 			}
 		}
 
