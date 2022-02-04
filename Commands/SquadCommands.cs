@@ -3,6 +3,7 @@ using DSharpPlus.CommandsNext.Attributes;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using DSharpPlus.Entities;
 
 namespace JayBot.Commands
 {
@@ -10,7 +11,7 @@ namespace JayBot.Commands
 	{
 		[Command("squad")]
 		[Description("WIP documentation. Ask Chris in the meantime")]
-		public async Task Squad(CommandContext ctx, string mode, params string[] parameters)
+		public async Task Squad(CommandContext ctx, [Description("is used to choose what you want to do. Below are valid inputs:\n`summon`/`call`/`ping` are used to ping all members\n`list` is used to get a list of all current squads\n`delete` is used to delete a squad\n`addmember`/`removemeber` are used to add/remove members in a squad\n")]string mode, params string[] parameters)
 		{
 			bool isMember;
 			string replyText = "";
@@ -145,6 +146,11 @@ namespace JayBot.Commands
 				await ctx.Channel.SendMessageAsync(replyText).ConfigureAwait(false);
 			}
 		}
-
+		/*
+		[Command("test")]
+		public async Task Squad(CommandContext ctx, DiscordMember user)
+		{
+			await ctx.Channel.SendMessageAsync(user.Id.ToString()).ConfigureAwait(false);
+		}*/
 	}
 }
