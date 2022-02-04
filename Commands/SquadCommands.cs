@@ -12,9 +12,9 @@ namespace JayBot.Commands
 		[Command("squad")]
 		[Description("Allows you to mass ping specific people with a single command.")]
 		public async Task Squad(CommandContext ctx,
-			[Description("The type of action you want to initiate. Valid entries are below:\n-------------------------------------------------------\n`create`: create a new squad\n`ping`: pings the squad`addmember`/`removemember`: adds/removes member(s) from the squad\n`delete`: deletes the squad\n-------------------------------------------------------")]string mode,
-			[Description("The target squad. Squad names are unique identifiers and case sensitive")]string name,
-			[Description("Optional and variable amount. The people you want to target with your action")]params DiscordMember[] discordMembers)
+			[Description("The type of action you want to initiate. Valid entries are below:\n-------------------------------------------------------\n`create`: create a new squad\n`ping`: pings the squad`addmember`/`removemember`: adds/removes member(s) from the squad\n`delete`: deletes the squad\n-------------------------------------------------------")] string mode,
+			[Description("The target squad. Squad names are unique identifiers and case sensitive")] string name,
+			[Description("Optional and variable amount. The people you want to target with your action. Ping them in the command to have it work.")] params DiscordMember[] discordMembers)
 		{
 			string replyText = "Squad not found";
 			int squadIndex = Bot.squads.FindIndex(x => x.name == name);//Helpers.GuildIndex(name);
@@ -27,7 +27,7 @@ namespace JayBot.Commands
 						{
 							replyText = string.Empty;
 							List<string> tempList = new List<string>();
-							
+
 							for (int i = 0; i < discordMembers.Length; i++)
 							{
 								tempList.Add(discordMembers[i].Id.ToString());
@@ -128,9 +128,9 @@ namespace JayBot.Commands
 		public async Task SquadList(CommandContext ctx)
 		{
 			string replyText = string.Empty;
-			for (int i =0; i < Bot.squads.Count; i++)
+			for (int i = 0; i < Bot.squads.Count; i++)
 			{
-				replyText += Bot.squads[i].name +"\n";
+				replyText += Bot.squads[i].name + "\n";
 			}
 			await ctx.Channel.SendMessageAsync(replyText).ConfigureAwait(false);
 		}
