@@ -1,4 +1,6 @@
-﻿namespace JayBot
+﻿using System.IO;
+
+namespace JayBot
 {
 	static class Helpers
 	{
@@ -42,22 +44,6 @@
 			return result;
 		}
 
-
-		public static bool GuildExists(string guildName)
-		{
-			bool result = false;
-			foreach (var guild in Bot.squads)
-			{
-				if (guild.name == guildName)
-				{
-					result = true;
-					break;
-				}
-			}
-
-			return result;
-		}
-
 		//Returns guild index if the guild exists, otherwise returns -1
 		public static int GuildIndex(string guildName)
 		{
@@ -72,7 +58,6 @@
 			}
 			return result;
 		}
-
 
 		public static bool GuildExistsAndUserIsGuildMember(string guildName, string memberID)
 		{
@@ -90,5 +75,12 @@
 			return result;
 		}
 
+
+		public static void SortSquadList()
+		{
+			Bot.squads.Sort(delegate (Squad squad1, Squad squad2) { return squad1.name.CompareTo(squad2.name); });
+			string output = Newtonsoft.Json.JsonConvert.SerializeObject(Bot.squads);
+			File.WriteAllText(Bot.squadJsonPath, output);
+		}
 	}
 }

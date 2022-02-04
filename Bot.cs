@@ -19,7 +19,7 @@ namespace JayBot
 		static public List<Question> serverQuestions = new List<Question>();
 		static public List<Squad> squads = new List<Squad>();
 
-		static private readonly string folderName = "DataFiles/";
+		static private readonly string folderName = "DataFiles\\";
 		//Linux full path "/home/chris/repos/JayBot/DataFiles/";
 		static public readonly string dataJsonPath = folderName + "game.json";
 		static public readonly string serverQuestionJsonPath = folderName + "server.json";
