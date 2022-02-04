@@ -10,14 +10,14 @@ namespace JayBot.Commands
 	public class SquadCommands : BaseCommandModule
 	{
 		[Command("squad")]
-		[Description("Debug version")]
+		[Description("Allows you to mass ping specific people with a single command.")]
 		public async Task Squad(CommandContext ctx,
-			string mode,
-			string name,
-			params DiscordMember[] discordMembers)
+			[Description("The type of action you want to initiate. Valid entries are below:\n-------------------------------------------------------\n`create`: create a new squad\n`ping`: pings the squad`addmember`/`removemember`: adds/removes member(s) from the squad\n`delete`: deletes the squad\n-------------------------------------------------------")]string mode,
+			[Description("The target squad. Squad names are unique identifiers and case sensitive")]string name,
+			[Description("Optional and variable amount. The people you want to target with your action")]params DiscordMember[] discordMembers)
 		{
 			string replyText = "Squad not found";
-			int squadIndex = Helpers.GuildIndex(name);
+			int squadIndex = Bot.squads.FindIndex(x => x.name == name);//Helpers.GuildIndex(name);
 			bool isMember = Helpers.IsGuildMember(squadIndex, ctx.Member.Id.ToString());
 			switch (mode.ToLower())
 			{
