@@ -24,7 +24,7 @@ namespace JayBot
 		static public readonly string dataJsonPath = folderName + "game.json";
 		static public readonly string serverQuestionJsonPath = folderName + "server.json";
 		static public readonly string squadJsonPath = folderName + "squads.json";
-		public void LoadJson()
+		private void LoadJson()
 		{
 			using (StreamReader reader = new StreamReader(dataJsonPath))
 			{
