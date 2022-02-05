@@ -18,7 +18,7 @@ namespace JayBot.Commands
 		{
 			string replyText = "Squad not found";
 			int squadIndex = Bot.squads.FindIndex(x => x.name == name);//Helpers.GuildIndex(name);
-			bool isMember = Helpers.IsGuildMember(squadIndex, ctx.Member.Id.ToString());
+			bool isMember = Helpers.IsSquadMember(squadIndex, ctx.Member.Id.ToString());
 			switch (mode.ToLower())
 			{
 				case "create":
@@ -47,7 +47,6 @@ namespace JayBot.Commands
 					{
 						if (squadIndex != -1)
 						{
-							isMember = Helpers.IsGuildMember(squadIndex, ctx.Member.Id.ToString());
 							if (isMember)
 							{
 								replyText = $"Squad {Bot.squads[squadIndex].name} you're summoned!\n" + Bot.squads[squadIndex].massPing;

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace JayBot.Commands
 {
-	public class FunCommands : BaseCommandModule
+	public class GeneralCommands : BaseCommandModule
 	{
 		[Command("say")]
 		[Description("Posts input (without the bot command)")]
@@ -14,15 +14,12 @@ namespace JayBot.Commands
 			await ctx.Channel.SendMessageAsync(message.Remove(0, 5)).ConfigureAwait(false);
 			await ctx.Message.DeleteAsync();
 		}
+		[Command("source")]
+		[Description("Posts link to source code.")]
+		public async Task Source(CommandContext ctx)
+		{
+			await ctx.Channel.SendMessageAsync("GitHub link: https://github.com/ChristosLabrou/JayBot").ConfigureAwait(false);
+		}
 
-		/*
-			[Command("squad")]
-			[Description("WIP")]
-			public async Task Squad(CommandContext ctx, params uint[] IDs){
-				await ctx.Channel.SendMessageAsync("Work in Progress. Begone thot!").ConfigureAwait(false);
-
-
-			}
-		*/
 	}
 }

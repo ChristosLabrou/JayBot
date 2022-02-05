@@ -4,12 +4,12 @@ namespace JayBot
 {
 	static class Helpers
 	{
-		public static bool IsGuildMember(int guildIndex, string memberID)
+		public static bool IsSquadMember(int squadIndex, string memberID)
 		{
 			bool result = false;
-			if (guildIndex != -1)
+			if (squadIndex != -1)
 			{
-				foreach (var member in Bot.squads[guildIndex].memberIDs)
+				foreach (var member in Bot.squads[squadIndex].memberIDs)
 				{
 					if (memberID == member)
 					{

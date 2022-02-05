@@ -73,8 +73,7 @@ namespace JayBot
 			};
 
 			Commands = Client.UseCommandsNext(commandsConfig);
-			//Commands.RegisterCommands<FunCommands>();
-			Commands.RegisterCommands<FunCommands>();
+			Commands.RegisterCommands<GeneralCommands>();
 			Commands.RegisterCommands<QuestionCommands>();
 			Commands.RegisterCommands<SquadCommands>();
 
