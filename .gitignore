@@ -368,3 +368,7 @@ config.json
 # vscode files - I may want to remove them from gitignore in the future
 .vscode/
 .vscode/*
+
+# DataFiles folder includes all json files
+DataFiles/
+DataFiles/*
