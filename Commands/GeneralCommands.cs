@@ -14,8 +14,9 @@ namespace JayBot.Commands
 		[Description("Posts input (without the bot command)")]
 		public async Task Say(CommandContext ctx, params string[] text)
 		{
-			string message = ctx.Message.Content;
-			message = Regex.Replace(message, @"!say", "");
+			string message = string.Empty;
+			//message = Regex.Replace(message, @"(!|<@934181567931236393>)\s*say", "");
+			message = string.Join(" ", text);
 			await ctx.Channel.SendMessageAsync(message).ConfigureAwait(false);
 			await ctx.Message.DeleteAsync();
 		}
@@ -25,16 +26,17 @@ namespace JayBot.Commands
 		{
 			await ctx.Channel.SendMessageAsync("GitHub link: https://github.com/ChristosLabrou/JayBot").ConfigureAwait(false);
 		}
-	/*
+	
 		[Command("dm")]
+		[Description("Sends DM to target. Only Chris can use it")]
 		public async Task DM(CommandContext ctx, DiscordMember target, params string[] text){
-			string message = ctx.Message.Content;
-			int length = 1+2+3+1+ctx.Member.Id.ToString().Length+1; //magic numbers yay!
-			message = message.Remove(0, length);
-			await target.SendMessageAsync(message).ConfigureAwait(false);
-			await ctx.Message.DeleteAsync();
+			if (ctx.Member.Id == 259995873923039233){
+				string message = string.Join(" ", text);
+				await target.SendMessageAsync(message).ConfigureAwait(false);
+				await ctx.Message.DeleteAsync();
+			}			
 		}
-	*/
+	
 		[Command("servericon")]
 		[Description("Posts server icon")]
 		public async Task Banner(CommandContext ctx){
@@ -81,5 +83,6 @@ namespace JayBot.Commands
 			}
 			await ctx.Channel.SendMessageAsync(reply).ConfigureAwait(false);
 		}
+
 	}
 }
