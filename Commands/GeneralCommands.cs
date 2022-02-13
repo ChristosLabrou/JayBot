@@ -14,9 +14,8 @@ namespace JayBot.Commands
 		[Description("Posts input (without the bot command)")]
 		public async Task Say(CommandContext ctx, params string[] text)
 		{
-			string message = string.Empty;
 			//message = Regex.Replace(message, @"(!|<@934181567931236393>)\s*say", "");
-			message = string.Join(" ", text);
+			string message = string.Join(" ", text);
 			await ctx.Channel.SendMessageAsync(message).ConfigureAwait(false);
 			await ctx.Message.DeleteAsync();
 		}
@@ -84,5 +83,20 @@ namespace JayBot.Commands
 			await ctx.Channel.SendMessageAsync(reply).ConfigureAwait(false);
 		}
 
+
+		[Command("activity")]
+		[Description("Sets bot activity. Only Chris can use it.")]
+		public async Task Activity(CommandContext ctx, params string[] status)
+		{
+			if (ctx.User.Id == 259995873923039233)
+			{
+				DiscordActivity activity = new DiscordActivity();
+				var client = ctx.Client;
+				string merged = string.Join(" ", status);
+				activity.Name = merged;
+				await client.UpdateStatusAsync(activity).ConfigureAwait(false);
+			}
+
+		}
 	}
 }
