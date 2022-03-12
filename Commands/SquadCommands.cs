@@ -87,7 +87,7 @@ namespace JayBot.Commands
 							if (isMember)
 							{
 								replyText = $"Members removed from {Bot.squads[squadIndex].name} guild:\n";
-								for (int i = 1; i < discordMembers.Length; i++)
+								for (int i = 0; i < discordMembers.Length; i++)
 								{
 									Bot.squads[squadIndex].memberIDs.Remove(discordMembers[i].Id.ToString());
 									replyText += "<@" + discordMembers[i].Id.ToString() + ">\n";

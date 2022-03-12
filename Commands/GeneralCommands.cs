@@ -10,12 +10,26 @@ namespace JayBot.Commands
 {
 	public class GeneralCommands : BaseCommandModule
 	{
+		/*
+		[Command("debug")]
+		[Description("Debug")]
+		public async Task Debug(CommandContext ctx, params string[] text)
+		{
+			string message = ctx.Message.Content;
+			//message = Regex.Replace(message, @"(!|<@934181567931236393>)\s*say", " ");
+			//string message = string.Join(" ", text);
+			await ctx.Channel.SendMessageAsync(message).ConfigureAwait(false);
+			//await ctx.Message.DeleteAsync();
+		}
+		*/
+
 		[Command("say")]
 		[Description("Posts input (without the bot command)")]
 		public async Task Say(CommandContext ctx, params string[] text)
 		{
-			//message = Regex.Replace(message, @"(!|<@934181567931236393>)\s*say", "");
-			string message = string.Join(" ", text);
+			string message = ctx.Message.Content;
+			message = Regex.Replace(message, @"(!|<@934181567931236393>)\s*say", " ");
+			//string message = string.Join(" ", text);
 			await ctx.Channel.SendMessageAsync(message).ConfigureAwait(false);
 			await ctx.Message.DeleteAsync();
 		}
