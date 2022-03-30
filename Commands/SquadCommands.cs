@@ -12,7 +12,7 @@ namespace JayBot.Commands
 		[Command("squad")]
 		[Description("Allows you to mass ping specific people with a single command.")]
 		public async Task Squad(CommandContext ctx,
-			[Description("The type of action you want to initiate. Valid entries are below:\n-------------------------------------------------------\n`create`: create a new squad\n`ping`: pings the squad`addmember`/`removemember`: adds/removes member(s) from the squad\n`delete`: deletes the squad\n-------------------------------------------------------")] string mode,
+			[Description("The type of action you want to initiate. Valid entries are below:\n-------------------------------------------------------\n`create`: create a new squad\n`ping`: pings the squad\n`addmember`/`removemember`: adds/removes member(s) from the squad\n`delete`: deletes the squad\n-------------------------------------------------------")] string mode,
 			[Description("The target squad. Squad names are unique identifiers and case sensitive")] string name,
 			[Description("Optional and variable amount. The people you want to target with your action. Ping them in the command to have it work.")] params DiscordMember[] discordMembers)
 		{
@@ -33,7 +33,7 @@ namespace JayBot.Commands
 								tempList.Add(discordMembers[i].Id.ToString());
 								replyText += "<@" + discordMembers[i].Id.ToString() + ">\n";
 							}
-							Bot.squads.Add(new Squad(name, tempList, replyText));
+							Bot.squads.Add(new Squad(name, tempList));
 							replyText = $"Squad {name} added with members:\n" + replyText;
 							Helpers.SortSquadList();
 						}
@@ -49,7 +49,7 @@ namespace JayBot.Commands
 						{
 							if (isMember)
 							{
-								replyText = $"Squad {Bot.squads[squadIndex].name} you're summoned!\n" + Bot.squads[squadIndex].massPing;
+								replyText = $"Squad {Bot.squads[squadIndex].name} you're summoned!\n" + Bot.squads[squadIndex].GenerateMassPing();
 
 							}
 							else
@@ -69,7 +69,6 @@ namespace JayBot.Commands
 								for (int i = 0; i < discordMembers.Length; i++)
 								{
 									Bot.squads[squadIndex].memberIDs.Add(discordMembers[i].Id.ToString());
-									Bot.squads[squadIndex].massPing += "<@" + discordMembers[i].Id.ToString() + ">\n";
 									replyText += "<@" + discordMembers[i].Id.ToString() + ">\n";
 								}
 							}

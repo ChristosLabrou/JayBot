@@ -7,21 +7,23 @@ namespace JayBot
 	{
 		public string name;
 		public List<string> memberIDs;
-		public string massPing { get; set; }
+		//public string massPing { get; set; }
 
-		//[JsonConstructor]
+		[JsonConstructor]
 		public Squad(string name, List<string> memberIDs)
 		{
 			this.name = name;
 			this.memberIDs = memberIDs;
 		}
 
-		[JsonConstructor]
-		public Squad(string name, List<string> memberIDs, string massPing)
+		public string GenerateMassPing()
 		{
-			this.name = name;
-			this.memberIDs = memberIDs;
-			this.massPing = massPing;
+			string massPing = string.Empty;
+			for (int i = 0; i<memberIDs.Count; i++)
+			{
+				massPing += "<@" + memberIDs[i] + ">\n";
+			}
+			return massPing;
 		}
 	}
 }
