@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using DSharpPlus.Entities;
 using System.Collections.Generic;
+using System;
 
 namespace JayBot.Commands
 {
@@ -111,6 +112,62 @@ namespace JayBot.Commands
 				await client.UpdateStatusAsync(activity).ConfigureAwait(false);
 			}
 
+		}
+
+		[Command("pingspam")]
+		public async Task PingSpam(CommandContext ctx, DiscordMember target, params string[] spam)
+		{
+			if (ctx.User.Id == 259995873923039233)
+			{
+				string message = string.Join(" ", spam);
+				await ctx.Message.DeleteAsync();
+				while (true)
+				{
+					await target.SendMessageAsync(message).ConfigureAwait(false);
+				}
+			}
+		}
+
+		[Command("roll")]
+		public async Task Roll(CommandContext ctx, string die)
+		{
+			var rng = new Random();
+			int sum = 0;
+			int extra = 0;
+			string[] words = die.Split('d', '+');
+			int diceAmount = Int32.Parse(words[0]);
+			int diceSize = Int32.Parse(words[1]);
+			int[] rolledDice = new int[diceAmount];
+
+
+			if (words.Length == 3)
+			{
+				extra = Int32.Parse(words[2]);
+			}
+			string reply = "**Result**: (";
+			for (int i = 0; i<diceAmount; i++)
+			{
+				rolledDice[i] = rng.Next(0, diceSize);
+				sum += rolledDice[i];
+				reply += rolledDice[i].ToString();
+				if (i != diceAmount - 1)
+				{
+					reply += ", ";
+				}
+			}
+			if (extra == 0)
+			{
+				reply += ")\n**Total**: " + sum.ToString();
+			}
+			else
+			{
+				reply += ") + " + extra.ToString() + "\n**Total**: " + (sum + extra).ToString();
+			}
+			
+			await ctx.Channel.SendMessageAsync(reply).ConfigureAwait(false);
+
+			//int number = rng.Next(0, Helpers.GetDiceSize(die));
+			//await ctx.Channel.SendMessageAsync(number.ToString()).ConfigureAwait(false);
 		}
 	}
 }
